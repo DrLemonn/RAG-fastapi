@@ -2,7 +2,7 @@ import os
 import rag
 from ragas import EvaluationDataset, evaluate
 from ragas.llms import LangchainLLMWrapper
-from ragas.metrics import LLMContextRecall, Faithfulness, FactualCorrectness
+from ragas.metrics import ContextPrecision, Faithfulness, ResponseRelevancy
 from langchain_openai import ChatOpenAI
 from openai import OpenAI
 import pandas as pd
@@ -77,7 +77,7 @@ evaluator_llm = LangchainLLMWrapper(llm) # 建议评估用更强的模型
 
 result = evaluate(
     dataset=eval_dataset,
-    metrics=[LLMContextRecall(), Faithfulness(), FactualCorrectness()],
+    metrics=[ContextPrecision(), Faithfulness(), ResponseRelevancy()],
     llm=evaluator_llm,
 )
 
