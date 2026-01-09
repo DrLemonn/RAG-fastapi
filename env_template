@@ -1,0 +1,16 @@
+# LLM Model - Get key at https://platform.openai.com/api-keys
+OPENAI_API_KEY=
+
+# LangSmith - Get key at https://smith.langchain.com
+LANGCHAIN_TRACING_V2=
+LANGCHAIN_ENDPOINT=
+LANGCHAIN_API_KEY=
+LANGCHAIN_PROJECT=
+
+# Pinecone Vector Database - Get key at https://app.pinecone.io
+PINECONE_INDEX_NAME=
+PINECONE_API_HOST=
+PINECONE_API_KEY=
+
+# Cohere - Get key at https://dashboard.cohere.com/api-keys
+COHERE_API_KEY=
