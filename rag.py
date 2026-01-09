@@ -10,6 +10,7 @@ from langchain_pinecone import PineconeVectorStore
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_classic.prompts import PromptTemplate
 
 from pinecone import Pinecone
 
@@ -78,7 +79,14 @@ def get_rag_chain():
     print("Runing RAG...")
     
     # Prompt
-    prompt = hub.pull("rlm/rag-prompt")
+    #prompt = hub.pull("rlm/rag-prompt")
+
+    prompt_temp = """你是一个专门负责问答任务的助手。请结合以下检索到的上下文内容来回答问题。如果你无法从上下文中得到答案，请直接说明你不知道，不要尝试编造。回答字数请控制在三句话以内，并保持言简意赅。
+    问题： {question} 
+    上下文： {context} 
+    答案：
+    """
+    prompt = PromptTemplate.from_template(prompt_temp)
 
     # LLM
     llm = ChatOpenAI(
