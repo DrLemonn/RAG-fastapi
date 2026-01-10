@@ -1,5 +1,5 @@
 import os
-import rag
+import rag_baseline
 from ragas import EvaluationDataset, evaluate
 from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import ContextPrecision, Faithfulness, ResponseRelevancy
@@ -9,7 +9,7 @@ import pandas as pd
 
 
 # 1. 获取生产环境的 Chain 和 Retriever
-rag_chain, retriever= rag.get_rag_chain()
+rag_chain, retriever= rag_baseline.get_rag_chain()
 
 # 2. 准备测试集 (根据你的文档)
 sample_queries = [
