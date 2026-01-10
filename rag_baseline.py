@@ -12,6 +12,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_classic.prompts import PromptTemplate
 
+from pinecone import ServerlessSpec
 from pinecone import Pinecone
 
 
@@ -57,6 +58,12 @@ def get_rag_chain():
         # Split
         print("Spliting documents...")
         splits = split_docs(docs)
+
+        pc.create_index(
+            name=index_name, 
+            metric="cosine",
+            spec=ServerlessSpec(cloud='aws', region='us-east-1'),
+            dimension=4096)
 
         print("Create indexing...")
         vectorstore = PineconeVectorStore.from_documents(
@@ -111,7 +118,7 @@ def main():
     rag_chain, _= get_rag_chain()
 
     # Question
-    pprint(rag_chain.invoke("在 FastAPI 中，async def 和普通 def 定义路由的处理逻辑有什么区别？什么时候该用哪种？"))
+    pprint(rag_chain.invoke("什么是 FastAPI？它的核心特性有哪些？"))
 
 if __name__ == "__main__":
     main()

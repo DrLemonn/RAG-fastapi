@@ -3,3 +3,6 @@
 __pycache__/
 *.pyc
 testbook.ipynb
+ds_cache
+parent_docs_store
+docs_test

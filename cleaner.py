@@ -73,9 +73,7 @@ def clean_fastapi_markdown(text, root_dir="."):
                 try:
                     with open(check_path, 'r', encoding='utf-8') as f:
                         target_content = f.read()
-                    seen_files.add(found_key)
-                    print(f"this set{seen_files}")
-                    
+                    seen_files.add(found_key)                    
                     break # 找到高优先级文件后立即停止
                 except Exception as e:
                     return f"\n[Error reading file {candidate}: {e}]\n"
@@ -111,7 +109,19 @@ def clean_fastapi_markdown(text, root_dir="."):
 
     # 3. 处理图片 (保留 alt 文本)
     # 处理 HTML <img> 标签
-    text = re.sub(r'<img[^>]*alt="([^"]*)"[^>]*>', r'[Image: \1]', text)
+
+    def replace_image_tag(match):
+        tag = match.group(0)
+        # 尝试寻找 alt 属性
+        alt_match = re.search(r'alt="([^"]*)"', tag)
+        if alt_match:
+            return f'[Image: {alt_match.group(1)}]'
+        else:
+            # 如果没有 alt，可以返回一个占位符或空
+            return '[Image]' 
+
+    # 匹配任何以 <img 开头并以 > 结尾的内容
+    text = re.sub(r'<img[^>]*>', replace_image_tag, text)
     # 处理 Markdown ![]() 标签
     text = re.sub(r'!\[([^\]]*)\]\([^\)]+\)', r'[Image: \1]', text)
 
@@ -135,10 +145,6 @@ def clean_fastapi_markdown(text, root_dir="."):
 
     return text
 
-# 使用示例
-# 假设你已经下载了 fastapi 的源码，root_dir 指向源码根目录
-# processed_text = clean_fastapi_markdown(original_content, root_dir="/path/to/fastapi/repo")
-# print(processed_text)
 
 if __name__ == "__main__":
     # --- 配置区域 ---
@@ -158,33 +164,7 @@ if __name__ == "__main__":
     # input_md_file = "docs/en/docs/tutorial/first-steps.md" 
     # 如果你手头暂时没有 md 文件，可以使用下面的 "模拟测试模式"
     
-    input_md_file = "test_doc.md" # 假设你要读取的文件名
-
-    # --- 模拟数据测试 (如果你还没准备好 md 文件，用这个) ---
-    # 为了演示，我们先创建一个包含引入标签的模拟字符串
-    # 假设 docs_src 下有一个 main.py
-
-# ... (上面是你提供的 import 和 函数定义) ...
-
-if __name__ == "__main__":
-    # --- 配置区域 ---
-    
-    # 1. 设置根目录 (root_dir)
-    # 假设你的目录结构是这样的：
-    # /project_root
-    #   ├── your_script.py (当前脚本)
-    #   ├── docs_src/      (存放代码文件的目录)
-    #   └── docs/          (存放 markdown 文档的目录)
-    
-    # 获取当前脚本所在的目录作为根目录
-    current_root_dir = os.path.dirname(os.path.abspath(__file__))
-    
-    # 2. 指定一个要测试的 Markdown 文件路径
-    # 请修改为你实际存在的 md 文件路径，例如:
-    # input_md_file = "docs/en/docs/tutorial/first-steps.md" 
-    # 如果你手头暂时没有 md 文件，可以使用下面的 "模拟测试模式"
-    
-    input_md_file = "test_doc.md" # 假设你要读取的文件名
+    input_md_file = "rag_test_doc.md" # 假设你要读取的文件名
 
     # --- 模拟数据测试 (如果你还没准备好 md 文件，用这个) ---
     # 为了演示，我们先创建一个包含引入标签的模拟字符串
@@ -223,7 +203,7 @@ if __name__ == "__main__":
     print("="*50)
 
     # 5. 保存到新文件以便查看
-    output_filename = "output_result.md"
+    output_filename = "test_clean_result.md"
     with open(output_filename, "w", encoding="utf-8") as f:
         f.write(processed_result)
 
