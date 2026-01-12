@@ -69,7 +69,7 @@ def get_retriever(docs=None, index_exists=False):
     
     # 1. 初始化 Embedding
     embeddings = OpenAIEmbeddings(
-        model="qwen/qwen3-embedding-8b", 
+        model="openai/text-embedding-3-large", 
         base_url="https://openrouter.ai/api/v1",
         api_key=os.getenv("OPENAI_API_KEY"),
     )
@@ -97,7 +97,7 @@ def get_retriever(docs=None, index_exists=False):
             name=INDEX_NAME, 
             metric="cosine",
             spec=ServerlessSpec(cloud='aws', region='us-east-1'),
-            dimension=4096 
+            dimension=3072
         )
         # 创建新实例
         vectorstore = PineconeVectorStore(
@@ -207,14 +207,14 @@ def get_rag_chain():
         | StrOutputParser()
     )
     
-    return rag_chain
+    return rag_chain, retriever
 
 def main():
-    rag_chain = get_rag_chain()
+    rag_chain, _ = get_rag_chain()
 
     # Question
     print("\n" + "="*30)
-    query = "什么是 FastAPI？它的核心特性有哪些？"
+    query = "FastAPI是什么？有哪些关键特性？"
     print(f"提问: {query}")
     
     result = rag_chain.invoke(query)
