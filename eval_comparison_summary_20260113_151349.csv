@@ -1,0 +1,4 @@
+﻿pipeline,latency_seconds,context_precision,faithfulness,answer_relevancy
+chunks_only,26.451,0.6389,0.6827,0.5678
+data_cleaned,21.898,0.9167,0.7601,0.5886
+hybrid_multiquery,58.618,0.7917,0.7664,0.5467

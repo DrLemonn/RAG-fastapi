@@ -9,6 +9,8 @@ langchain-pinecone
 langchain-cohere
 pydantic>=2.7.0
 pinecone-client
+pinecone-text>=0.8.0
+jieba>=0.42.1
 beautifulsoup4
 tiktoken
 numpy

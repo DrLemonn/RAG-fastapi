@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from pprint import pprint
 
-import cleaner
+import cleaner_no_dedup as cleaner
 
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
